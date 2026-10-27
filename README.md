@@ -1,36 +1,51 @@
-# X Management — Smart Pharmacy Management & ERP Platform (Phase 1)
+# X Management — Smart Pharmacy Management & ERP Platform
 
 > **"Smart Pharmacy Management. Simplified Business."**
 
 X Management is a modern cloud-based pharmacy management and enterprise resource planning (ERP) platform engineered for retail, community, and hospital pharmacies.
 
-This repository contains **Phase 1: The Complete Public Website & Frontend Architecture**.
+This repository contains **Phase 1 (Complete Public Website)** and **Phase 2 (Secure Super Admin Panel)**.
 
 ---
 
-## 🌟 Features Implemented in Phase 1
+## 🌟 Implemented Phases
 
+### Phase 1: Complete Public Website & Frontend Architecture
 - **Healthcare SaaS Design System**: Professional navy blue and medical emerald aesthetics built with Tailwind CSS.
 - **Hero & Interactive ERP Preview**: Live preview showing cashier shift status, daily revenue KPIs, low-stock/near-expiry alerts, prescription counter dispensing table, and sales breakdown chart.
 - **Trust & Value Propositions**: Key operational pillars focused on clinical integrity, inventory visibility, and billing speed.
-- **12 Comprehensive Module Feature Cards**:
-  1. Pharmacy POS and Billing
-  2. Medicine Inventory
-  3. Batch and Expiry Tracking (FEFO)
-  4. Purchase Management
-  5. Supplier Management
-  6. Customer Management
-  7. Customer and Supplier Khata
-  8. Expenses Management
-  9. Sales and Profit Reports
-  10. Employee and Role Management (RBAC)
-  11. Multi-Shop SaaS Administration
-  12. Subscription Management
-- **Interactive System Previews**: Multi-tab showcase of the upcoming Overview Dashboard, POS Billing Counter, FEFO Medicine Catalog, and Sales Reports.
+- **12 Comprehensive Module Feature Cards**: POS & Billing, Medicine Inventory, FEFO Expiry Tracking, Procurement, Khata Ledgers, Role Management, Multi-Shop SaaS Admin, etc.
+- **Interactive System Previews**: Multi-tab showcase of Overview Dashboard, POS Billing Counter, FEFO Medicine Catalog, and Sales Reports.
 - **Transparent Pricing Tiers**: Basic, Standard, and Premium subscription plans with early-access pilot request integration.
 - **Validated Contact Form**: Full schema validation with React Hook Form and Zod with accessible error states and demo submission feedback.
-- **Placeholder Routes**: `/login` (explaining planned role-based authentication), `/get-started` (tier onboarding preview), `/privacy` (draft review policy), and `/terms` (draft review terms).
-- **Responsive & Accessible**: Tested across desktop, laptop, tablet, and mobile (360px–1440px) with semantic HTML and keyboard focus states.
+- **Public Routes**: `/`, `/login` (public pharmacy staff portal placeholder), `/get-started`, `/privacy`, `/terms`.
+
+### Phase 2: Secure Super Admin Panel Foundation
+- **Super Admin Authentication (`/admin/login`)**:
+  - Email and password inputs with show/hide password toggle.
+  - Form validation with React Hook Form and Zod schema.
+  - Integration boundary with backend configuration status detection (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`).
+  - Safe Development Preview Session launcher for testing UI/UX layouts when the backend is unconfigured.
+  - Zero hardcoded passwords; strict server-side role check enforcement (`role: 'super_admin'`).
+- **Protected Routing (`/admin/*`)**:
+  - `AdminProtectedRoute` guard redirecting unauthenticated users to `/admin/login`.
+  - Session inactivity timeout handling and secure session clearing.
+- **Super Admin Layout & Design**:
+  - Navy blue collapsible sidebar (`#0B1528`), professional blue accents, clean white/gray content surfaces.
+  - Top navigation bar with administrator profile, role badge, notification bell, and mobile hamburger drawer.
+- **Super Admin Dashboard (`/admin`)**:
+  - 4 Core Summary Cards: Total Pharmacies, Active Subscriptions, Expired / Past Due Subscriptions, and Recorded Monthly Revenue (MRR).
+  - Subscription status distribution visualizer (Active vs Trial vs Past Due).
+  - Recent Pharmacy Tenants table with state license auditing and details drawer.
+  - Recent Invoices & Payments table with status badges (Completed, Pending, Failed).
+  - Quick action shortcuts for tenant onboarding, pricing plans, and audit logs.
+- **Pharmacy Management Navigation Foundations**:
+  - `/admin/pharmacies`: Pharmacy tenants directory with search, status filters, and tenant dossiers.
+  - `/admin/subscriptions`: Subscription ledgers with billing cycles and MRR breakdowns.
+  - `/admin/payments`: Billing transaction audit ledger with export triggers.
+  - `/admin/plans`: SaaS subscription tier definitions and feature limit enforcement.
+  - `/admin/users`: Platform administrator directory and RBAC security policies.
+  - `/admin/settings`: Database environment audit and multi-tenant security policies.
 
 ---
 
@@ -51,8 +66,8 @@ This repository contains **Phase 1: The Complete Public Website & Frontend Archi
 
 ### Prerequisites
 
-- Node.js (v18+ or v20+)
-- npm (v9+)
+- Node.js (v18+ or v20+ or v24+)
+- npm (v9+ or v11+)
 
 ### Installation
 
@@ -72,8 +87,24 @@ npm run dev
 
 The application will be live at `http://localhost:5173/`.
 
-### Available Scripts
+### Navigation Paths
 
-- `npm run dev`: Starts the Vite development server with HMR.
-- `npm run build`: Runs TypeScript verification and builds optimized production assets into `dist/`.
-- `npm run preview`: Previews the production build locally.
+- Public Website: `http://localhost:5173/`
+- Super Admin Login: `http://localhost:5173/admin/login`
+- Super Admin Dashboard: `http://localhost:5173/admin`
+- Pharmacy Directory: `http://localhost:5173/admin/pharmacies`
+- Subscriptions: `http://localhost:5173/admin/subscriptions`
+- Payments: `http://localhost:5173/admin/payments`
+- Plans: `http://localhost:5173/admin/plans`
+- Users & Roles: `http://localhost:5173/admin/users`
+- Settings: `http://localhost:5173/admin/settings`
+
+### Environment Configuration (For Future Live Backend)
+
+To connect a live Supabase PostgreSQL backend in Phase 3, create a `.env` file in the root directory:
+```env
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+```
+
+When these are omitted, the application automatically operates in transparent **Development Preview Mode** with illustrative data.
